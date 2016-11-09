@@ -1,3 +1,4 @@
+
 /*
 * Copyright (c) 2015 - 2016 Intel Corporation.
 *
@@ -22,6 +23,14 @@
 */
 
 "use strict";
+
+//Something Useful
+var T=Number(6); // duracion del paso ms, inverso de frecuencia
+var dir1 = Number(9);   ////pin para direccion eje x
+var paso1 = Number(8);   //pin para mandar pasos eje x
+var dir2 = Number(7);   ////pin para direccion eje y
+var paso2 = Number(6);   //pin para mandar pasos eje y
+
 
 var CLOCKWISE = 1,
     COUNTERCLOCKWISE = 2;
@@ -94,15 +103,28 @@ function server() {
   app.listen(process.env.PORT || 3000);
 }
 
-// The main function calls `server()` to start up
-// the built-in web server used to control the arm.
-// It then starts reading the joystick every 50 ms, and using
-// that data to control the stepper motors for the arm.
 function main() {
-  var x, y;
+//  var x, y;
+    var mraa = require('mraa'); //require mraa
+    console.log('MRAA Version: ' + mraa.getVersion()); //write the mraa version to the console
+    var pinDir1 = new mraa.Gpio(9); //setup digital read on Digital pin #5 (D5)
+    var pinPaso1 = new mraa.Gpio(8);
+    pinDir1.dir(mraa.DIR_OUT); //set the gpio direction to output
+    pinPaso1.dir(mraa.DIR_OUT);
+    server();
+    
+    setInterval(function() {
+//	digitalWrite(dir1,LOW);
+	pinDir1.write(0); //set the digital pin to high (1)
+//	digitalWrite(paso1,HIGH);
+	pinPaso1.write(1); //set the digital pin to high (1)
+	setTimeOut(function(){
+//	    digitalWrite(paso1,LOW);
+	    pinPaso1.write(0);
+	}, T/2);
+    }, T);
 
-  server();
-
+/*
   setInterval(function() {
     x = scale(thumb.getXInput());
     y = scale(thumb.getYInput());
@@ -112,7 +134,8 @@ function main() {
 
     if (y === 1) { move(step2, CLOCKWISE); }
     if (y === -1) { move(step2, COUNTERCLOCKWISE); }
-  }, 50);
+  }, T);
+  */ 
 }
 
 main();
