@@ -118,7 +118,7 @@ function main() {
 	pinDir1.write(0); //set the digital pin to high (1)
 //	digitalWrite(paso1,HIGH);
 	pinPaso1.write(1); //set the digital pin to high (1)
-	setTimeOut(function(){
+	setTimeout(function(){
 //	    digitalWrite(paso1,LOW);
 	    pinPaso1.write(0);
 	}, T/2);
