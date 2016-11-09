@@ -1,0 +1,18 @@
+{
+  "title": "Robot Arm Control",
+  "projectTypeName": "com.intel.xdk.projecttype.iotapp",
+  "sample": true,
+  "template": false,
+  "visible": true,
+  "sortWeight" : "0.0",
+  "repoSource": "github",
+  "repoUser": "intel-iot-devkit",
+  "repoName": "how-to-code-samples",
+  "repoPath": "tree/master/robot-arm/javascript",
+  "tooltip": "Control a robotic arm using a thumb joystick.",
+  "description" : "Control a robotic arm using a thumb joystick. Each axis of the joystick corresponds to a motor within the robot arm.",
+  "articleUrl": "https://github.com/intel-iot-devkit/how-to-code-samples/tree/master/robot-arm/javascript",
+  "keywords": ["joystick","motor controller"],
+  "targets": ["edison"],
+  "runtimes": ["node"]
+}
