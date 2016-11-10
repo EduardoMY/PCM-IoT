@@ -103,7 +103,8 @@ function server() {
   app.listen(process.env.PORT || 3000);
 }
 
-function moveStep(pinDir, pinPas, dir=0){
+function moveStep(pinDir, pinPas, dir){
+    dir=0;
     pinDir.write(dir);
     pinPas.write(1);
     setTimeout(function(){
