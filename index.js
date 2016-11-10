@@ -103,17 +103,31 @@ function server() {
   app.listen(process.env.PORT || 3000);
 }
 
+function moveStep(pinDir, pinPas, dir=0){
+    pinDir.write(dir);
+    pinPas.write(1);
+    setTimeout(function(){
+	pinPas.write(0);
+    }, T/2);
+}
+
 function main() {
-//  var x, y;
     var mraa = require('mraa'); //require mraa
     console.log('MRAA Version: ' + mraa.getVersion()); //write the mraa version to the console
-    var pinDir1 = new mraa.Gpio(9); //setup digital read on Digital pin #5 (D5)
+    var pinDir1 = new mraa.Gpio(9);
+    var pinDir2 = new mraa.Gpio(7);
     var pinPaso1 = new mraa.Gpio(8);
+    var pinPaso2 = new mraa.Gpio(6);
     pinDir1.dir(mraa.DIR_OUT); //set the gpio direction to output
+    pinDir2.dir(mraa.DIR_OUT);
     pinPaso1.dir(mraa.DIR_OUT);
+    pinPaso2.dir(mraa.DIR_OUT);
     server();
     
     setInterval(function() {
+	moveStep(pinDir1, pinPaso1);
+	moveStep(pinDir2, pinPaso2);
+	/*
 //	digitalWrite(dir1,LOW);
 	pinDir1.write(0); //set the digital pin to high (1)
 //	digitalWrite(paso1,HIGH);
@@ -121,21 +135,9 @@ function main() {
 	setTimeout(function(){
 //	    digitalWrite(paso1,LOW);
 	    pinPaso1.write(0);
-	}, T/2);
+	    console.log('wii');
+	}, T/2); */
     }, T);
-
-/*
-  setInterval(function() {
-    x = scale(thumb.getXInput());
-    y = scale(thumb.getYInput());
-
-    if (x === 1) { move(step1, CLOCKWISE); }
-    if (x === -1) { move(step1, COUNTERCLOCKWISE); }
-
-    if (y === 1) { move(step2, CLOCKWISE); }
-    if (y === -1) { move(step2, COUNTERCLOCKWISE); }
-  }, T);
-  */ 
 }
 
 main();
