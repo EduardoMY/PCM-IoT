@@ -83,7 +83,7 @@ function server() {
     app.post("/move", function (req, res){
 	console.log(req.params);
 	console.log(req.body);
-	for (var p in rq.body.path){
+	for (var p in req.body.path){
 	    for(var point in p)
 		console.log(point);
 	}
