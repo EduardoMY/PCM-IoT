@@ -25,7 +25,7 @@
 "use strict";
 
 //Something Useful
-var T=Number(6); // duracion del paso ms, inverso de frecuencia
+var T=Number(8); // duracion del paso ms, inverso de frecuencia
 var dir1 = Number(9);   ////pin para direccion eje x
 var paso1 = Number(8);   //pin para mandar pasos eje x
 var dir2 = Number(7);   ////pin para direccion eje y
@@ -82,14 +82,23 @@ function server() {
 
     app.post("/move", function (req, res){
 	console.log(req.params);
-	//console.log(req.body);
 	console.log(req.body.paths.length);
 	console.log("Inicio for");
 	for (var p in req.body.paths){
-	    for(var point in p)
-		console.log(point);
+	    console.log(p.length);
+	    for(var point in p){
+		console.log("un punto");
+		console.log("x "point.x + "y");
+	    }
 	}
 	console.log("fin for");
+	
+	app.post("/one-cw", function(){
+	    setTimeout(function(){
+		pinPas.write(0);
+	    }, T/2);
+	});
+	
 	/*
 	setInterval(function() {
 	    moveStep(pinDir1, pinPaso1, 0);
@@ -120,8 +129,10 @@ function main() {
     server();
     	setInterval(function() {
 	    moveStep(pinDir1, pinPaso1, 0);
-	    moveStep(pinDir2, pinPaso2, 0);
+	   // moveStep(pinDir2, pinPaso2, 0);
 	}, T);
 }
 
 main();
+
+
