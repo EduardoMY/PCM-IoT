@@ -57,16 +57,17 @@ pinPaso2.dir(mraa.DIR_OUT);
 // Starts the built-in web server for the web page
 // used to view or control the arm
 function server() {
-  var app = require("express")();
-
-  // Serve up the main web page used for the robot arm
-  function index(req, res) {
-    function serve(err, data) {
-      if (err) { return console.error(err); }
-      res.send(data);
+    var app = require("express")();
+    app.use(express.bodyParser());
+    
+    // Serve up the main web page used for the robot arm
+    function index(req, res) {
+	function serve(err, data) {
+	    if (err) { return console.error(err); }
+	    res.send(data);
+	}
+	fs.readFile(path.join(__dirname, "index.html"), {encoding: "utf-8"}, serve);
     }
-      fs.readFile(path.join(__dirname, "index.html"), {encoding: "utf-8"}, serve);
-  }
     
     //ALLOW CROSS
     app.use(function(req, res, next) {
@@ -76,31 +77,15 @@ function server() {
     });
     
     app.get("/", index);
-    
 
-    // Handler for each of the RESTful endpoints to control the arm
-    /*
-  function handle(stepper, dir) {
-    return function(req, res) {
-      res.send("done");
-      move(stepper, dir);
-    };
-  }
-    
-  // motor 1
-  app.post("/one-cw", handle(step1, CLOCKWISE));
-  app.post("/one-ccw", handle(step1, COUNTERCLOCKWISE));
-
-  // motor 2
-  app.post("/two-cw", handle(step2, CLOCKWISE));
-  app.post("/two-ccw", handle(step2, COUNTERCLOCKWISE));
-    */
     app.post("/move", function (req, res){
 	console.log(req.params);
 	console.log(req.body);
 	console.log("Good");
+	res.send("Hello");
     });
-  app.listen(process.env.PORT || 3000);
+    
+    app.listen(process.env.PORT || 3000);
 }
 
 function moveStep(pinDir, pinPas, dir){
