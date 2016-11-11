@@ -88,10 +88,12 @@ function server() {
 		console.log(point);
 	}
 	console.log("Good");
+	/*
 	setInterval(function() {
 	    moveStep(pinDir1, pinPaso1, 0);
 	    moveStep(pinDir2, pinPaso2, 0);
 	}, T);
+	*/
 	res.send("Hello");
     });
     
