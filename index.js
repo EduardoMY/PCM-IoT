@@ -65,9 +65,16 @@ function server() {
       if (err) { return console.error(err); }
       res.send(data);
     }
-    fs.readFile(path.join(__dirname, "index.html"), {encoding: "utf-8"}, serve);
+      fs.readFile(path.join(__dirname, "index.html"), {encoding: "utf-8"}, serve);
   }
-
+    
+    //ALLOW CROSS
+    app.use(function(req, res, next) {
+	res.header("Access-Control-Allow-Origin", "*");
+	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	next();
+    });
+    
     app.get("/", index);
     
 
