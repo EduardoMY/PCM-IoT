@@ -58,7 +58,7 @@ pinPaso2.dir(mraa.DIR_OUT);
 // used to view or control the arm
 function server() {
     var app = require("express")();
-    var bodyParser = require('body-parser')
+//    var bodyParser = require('body-parser')
     
     //ALLOW CROSS
     app.use(function(req, res, next) {
@@ -67,7 +67,7 @@ function server() {
 	next();
     });
     
-    app.use(bodyParser.json())
+//    app.use(bodyParser.json())
     
     // Serve up the main web page used for the robot arm
     function index(req, res) {
