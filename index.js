@@ -86,9 +86,10 @@ function server() {
 	console.log("Inicio for");
 	for (var p in req.body.paths){
 	    console.log(p.length);
+	    console.log(p);
 	    for(var point in p){
 		console.log("un punto");
-		console.log("x "point.x + "y");
+		console.log("x "+point.pX + "y"+point.pY);
 	    }
 	}
 	console.log("fin for");
