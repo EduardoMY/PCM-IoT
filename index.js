@@ -97,6 +97,8 @@ function server() {
     */
     app.post("/move", function (req, res){
 	console.log(req.params);
+	console.log(req.body);
+	console.log("Good");
     });
   app.listen(process.env.PORT || 3000);
 }
