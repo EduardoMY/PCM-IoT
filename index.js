@@ -82,12 +82,14 @@ function server() {
 
     app.post("/move", function (req, res){
 	console.log(req.params);
-	console.log(req.body);
-	for (var p in req.body.path){
+	//console.log(req.body);
+	console.log(req.body.paths.length);
+	console.log("Inicio for");
+	for (var p in req.body.paths){
 	    for(var point in p)
 		console.log(point);
 	}
-	console.log("Good");
+	console.log("fin for");
 	/*
 	setInterval(function() {
 	    moveStep(pinDir1, pinPaso1, 0);
