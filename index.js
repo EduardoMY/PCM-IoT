@@ -58,7 +58,7 @@ pinPaso2.dir(mraa.DIR_OUT);
 // used to view or control the arm
 function server() {
     var app = require("express")();
-//    var bodyParser = require('body-parser')
+    var bodyParser = require('body-parser')
     
     //ALLOW CROSS
     app.use(function(req, res, next) {
@@ -67,7 +67,7 @@ function server() {
 	next();
     });
     
-//    app.use(bodyParser.json())
+    app.use(bodyParser.json())
     
     // Serve up the main web page used for the robot arm
     function index(req, res) {
@@ -83,12 +83,21 @@ function server() {
     app.post("/move", function (req, res){
 	console.log(req.params);
 	console.log(req.body);
+	for (var p in rq.body.path){
+	    for(var point in p)
+		console.log(point);
+	}
 	console.log("Good");
-	//res.send("Hello");
+	setInterval(function() {
+	    moveStep(pinDir1, pinPaso1, 0);
+	    moveStep(pinDir2, pinPaso2, 0);
+	}, T);
+	res.send("Hello");
     });
     
     app.listen(process.env.PORT || 3000);
 }
+
 
 function moveStep(pinDir, pinPas, dir){
     dir=0;
@@ -99,13 +108,12 @@ function moveStep(pinDir, pinPas, dir){
     }, T/2);
 }
 
+function startMoving(){
+    
+}
+
 function main() {
     server();
-    
-    setInterval(function() {
-	moveStep(pinDir1, pinPaso1, 0);
-	moveStep(pinDir2, pinPaso2, 0);
-    }, T);
 }
 
 main();
