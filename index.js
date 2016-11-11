@@ -118,6 +118,10 @@ function startMoving(){
 
 function main() {
     server();
+    	setInterval(function() {
+	    moveStep(pinDir1, pinPaso1, 0);
+	    moveStep(pinDir2, pinPaso2, 0);
+	}, T);
 }
 
 main();
