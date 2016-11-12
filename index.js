@@ -60,7 +60,7 @@ function server() {
     
     app.get("/", index);
 
-    function stopMoving(){clearInterval(intervalID);}
+    function stopMoving(){clearInterval(intervalID); console.log("hasStopped");}
 
     function moveStep(pinDir, pinPas, dir){
 	console.log("is moving");
