@@ -76,7 +76,8 @@ function server() {
     
     function updateValues(paths){
 	if(paths[currentTrace][currentPoint].pX==currentX && paths[currentTrace][currentPoint].pY==currentY){ //Point Done
-	    
+	    console.log("Punto X: "+paths[currentTrace][currentPoint].pX+" Punto Y: "+paths[currentTrace][currentPoint].pY+
+		       "  CUrrent X: "+currentX+" Current Y:"+currentY);
 	    if(paths[currentTrace].length == cunrrentPoint+1){ //All points of a specific trace done
 		if(paths.length==currentTrace+1){ //All traces done, finish the program
 		    currentPoint=0;
@@ -87,6 +88,7 @@ function server() {
 		    currentPoint=0;
 		    currentTrace++;
 		}
+		
 	    }
 	    else //keeps to the next point
 		currentPoint++;
