@@ -76,6 +76,9 @@ function server() {
     function movementInY(paths){ return paths[currentTrace][currentPoint].pY-currentY;}
     
     function updateValues(paths){
+	console.log("Punto X: "+paths[currentTrace][currentPoint].pX+" Punto Y: "+paths[currentTrace][currentPoint].pY+
+		    "  CUrrent X: "+currentX+" Current Y:"+currentY);
+	console.log("==================");
 	if(paths[currentTrace][currentPoint].pX==currentX && paths[currentTrace][currentPoint].pY==currentY){ //Point Done
 	    console.log("Punto X: "+paths[currentTrace][currentPoint].pX+" Punto Y: "+paths[currentTrace][currentPoint].pY+
 		       "  CUrrent X: "+currentX+" Current Y:"+currentY);
