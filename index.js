@@ -103,7 +103,7 @@ function server() {
     function startMoving(paths){
 //	console.log("should be doing");
 	    if(movementInX(paths)!=0){//checks if needs movement in x
-		moveStep(pinDir1, pinPaso1, (movementInX(paths)<0 ? 1 : 0));
+		moveStep(pinDir1, pinPaso1, (movementInX(paths)>0 ? 1 : 0));
 		
 		if(movementInX(paths)>0)
 		    currentX++;
@@ -111,7 +111,7 @@ function server() {
 		    currentX--;
 	    }
 	    else if(movementInY(paths)!=0){// checks if needs movement in Y
-		moveStep(pinDir2, pinPaso2, (movementInY(paths)<0 ? 1 : 0));
+		moveStep(pinDir2, pinPaso2, (movementInY(paths)>0 ? 1 : 0));
 		
 		if(movementInY(paths)>0)
 		    currentY++;
