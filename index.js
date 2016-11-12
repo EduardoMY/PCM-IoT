@@ -27,12 +27,14 @@ var pinDir1 = new mraa.Gpio(9);
 var pinDir2 = new mraa.Gpio(7);
 var pinPaso1 = new mraa.Gpio(8);
 var pinPaso2 = new mraa.Gpio(6);
+var pinMilk = new mraa.Gpio(5);
 
 //Sets the direction of the Pins to Output, necessary for a digitalWrite
 pinDir1.dir(mraa.DIR_OUT);
 pinDir2.dir(mraa.DIR_OUT);
 pinPaso1.dir(mraa.DIR_OUT);
 pinPaso2.dir(mraa.DIR_OUT);
+pinMilk.dir(mraa.DIR_OUT);
 
 // Starts the built-in web server for the web page
 // used to view or control the arm
@@ -81,14 +83,18 @@ function server() {
 	console.log("==================");
 	if(paths[currentTrace][currentPoint].pX==currentX && paths[currentTrace][currentPoint].pY==currentY){ //Point Done
 	    console.log("Punto X: "+paths[currentTrace][currentPoint].pX+" Punto Y: "+paths[currentTrace][currentPoint].pY+
-		       "  CUrrent X: "+currentX+" Current Y:"+currentY);
+			"  CUrrent X: "+currentX+" Current Y:"+currentY);
+	    if(currentPoint==0)
+		pinMilk.write(1);
 	    if(paths[currentTrace].length == currentPoint+1){ //All points of a specific trace done
 		if(paths.length==currentTrace+1){ //All traces done, finish the program
 		    currentPoint=0;
 		    currentTrace=0;
+		    pinMilk.write(0);
 		    stopMoving();
 		}
 		else { // keeps to the next trace
+		    pinMilk.write(0);
 		    currentPoint=0;
 		    currentTrace++;
 		}
