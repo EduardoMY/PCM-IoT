@@ -97,7 +97,7 @@ function server() {
     }
     
     function startMoving(paths){
-
+	console.log("should be doing");
 	    if(movementInX(paths)!=0){//checks if needs movement in x
 		moveStep(pinDir1, pinPaso1, (movementInX(paths)<0 ? 1 : 0));
 		
@@ -118,12 +118,9 @@ function server() {
     }
     
     app.post("/move", function (req, res){
-	
+	console.log(req.body.paths.length);
 	intervalID=setInterval(function(){startMoving(req.body.paths);}, T);
-
-	//console.log(req.params);
-	//console.log(req.body.paths.length);
-	//console.log("Inicio for");
+	
 	res.send("Hello");
     });
     
