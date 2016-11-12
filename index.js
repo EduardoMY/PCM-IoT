@@ -62,7 +62,7 @@ function server() {
 	console.log("Inicio for");
 	for (var i=0;  i<req.body.paths.length; i++){
 	    console.log("un trazo");
-	    for(var ic=0; ic<req.body.paths[i].length ;ic ){
+	    for(var ic=0; ic<req.body.paths[i].length ;ic++ ){
 		console.log("un punto");
 		console.log("x "+req.body.paths[i][ic].pX + "y"+req.body.paths[i][ic].pY);
 	    }
