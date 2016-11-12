@@ -118,32 +118,10 @@ function server() {
     app.post("/move", function (req, res){
 	
 	intervalID=setInterval(function(){startMoving(req.body.paths);}, T);
-	
+
 	//console.log(req.params);
 	//console.log(req.body.paths.length);
 	//console.log("Inicio for");
-	/*
-	for (var i=0;  i<req.body.paths.length; i++){
-	    console.log("un trazo");
-	    for(var ic=0; ic<req.body.paths[i].length ;ic++ ){
-		console.log("un punto");
-		console.log("x "+req.body.paths[i][ic].pX + "y"+req.body.paths[i][ic].pY);
-	    }
-	}*/
-	//console.log("fin for");
-	/*
-	app.post("/one-cw", function(){
-	    setTimeout(function(){
-		pinPas.write(0);
-	    }, T/2);
-	});*/
-	
-	/*
-	setInterval(function() {
-	    moveStep(pinDir1, pinPaso1, 0);
-	    moveStep(pinDir2, pinPaso2, 0);
-	}, T);
-	*/
 	res.send("Hello");
     });
     
@@ -152,10 +130,11 @@ function server() {
 
 function main() {
     server();
+/*
     	setInterval(function() {
 	    moveStep(pinDir1, pinPaso1, 0);
 	   // moveStep(pinDir2, pinPaso2, 0);
-	}, T);
+	}, T); */
 }
 
 main();
