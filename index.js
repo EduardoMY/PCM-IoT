@@ -1,10 +1,14 @@
 "use strict";
 
 //Something Useful
+var currentX=Number(0), currentY=Number(0);
+var currentTrace=Number(0), currentPoint=Number(0);
+var intervalID=Number(0);
+
 var T=Number(8); // duracion del paso ms, inverso de frecuencia
 var dir1 = Number(9);   ////pin para direccion eje x
 var paso1 = Number(8);   //pin para mandar pasos eje x
-var dir2 = Number(7);   ////pin para direccion eje y
+var dir2 = Number(7);   //pin para direccion eje y
 var paso2 = Number(6);   //pin para mandar pasos eje y
 
 // The program is using the Node.js built-in `fs` module
@@ -16,7 +20,7 @@ var fs = require("fs");
 var path = require("path");
 
 var mraa = require('mraa'); //require mraa
-console.log('MRAA Version: ' + mraa.getVersion()); //write the mraa version to the console
+//console.log('MRAA Version: ' + mraa.getVersion()); //write the mraa version to the console
 
 //
 var pinDir1 = new mraa.Gpio(9);
@@ -43,7 +47,7 @@ function server() {
 	next();
     });
     
-    app.use(bodyParser.json())
+    app.use(bodyParser.json());
     
     // Serve up the main web page used for the robot arm
     function index(req, res) {
@@ -56,24 +60,83 @@ function server() {
     
     app.get("/", index);
 
+    function stopMoving(){clearInterval(intervalID);}
+
+    function moveStep(pinDir, pinPas, dir){
+	pinDir.write(dir);
+	pinPas.write(1);
+	setTimeout(function(){
+	    pinPas.write(0);
+	}, T/2);
+    }
+    
+    function movementInX(paths){ return paths[currentTrace][currentPoint].pX-currentX;}
+    
+    function movementInY(paths){ return paths[currentTrace][currentPoint].pY-currentY;}
+    
+    function updateValues(paths){
+	if(paths[currentTrace][currentPoint].pX==currentX && paths[currentTrace][currentPoint].pY==currentY){ //Point Done
+	    
+	    if(paths[currentTrace].length == cunrrentPoint+1){ //All points of a specific trace done
+		if(paths.length==currentTrace+1){ //All traces done, finish the program
+		    currentPoint=0;
+		    currentTrace=0;
+		    stopMoving();
+		}
+		else { // keeps to the next trace
+		    currentPoint=0;
+		    currentTrace++;
+		}
+	    }
+	    else //keeps to the next point
+		currentPoint++;
+	}
+	
+    }
+    
+    function startMoving(paths){
+
+	    if(movementInX(paths)!=0){//checks if needs movement in x
+		moveStep(pinDir1, pinPaso1, (movementInX(paths)<0 ? 1 : 0));
+		
+		if(movementInX(paths)<0)
+		    currentX++;
+		else
+		    currentX--;
+	    }
+	    else if(movementInY(paths)!=0){
+		moveStep(pinDir2, pinPaso2, (movementInY(paths)<0 ? 1 : 0));
+		
+		if(movementInY(paths)<0)
+		    currentY++;
+		else
+		    currentY--;
+	    }
+	    updateValues(paths);
+    }
+    
     app.post("/move", function (req, res){
-	console.log(req.params);
-	console.log(req.body.paths.length);
-	console.log("Inicio for");
+	
+	intervalID=setInterval(function(){startMoving(req.body.paths);}, T);
+	
+	//console.log(req.params);
+	//console.log(req.body.paths.length);
+	//console.log("Inicio for");
+	/*
 	for (var i=0;  i<req.body.paths.length; i++){
 	    console.log("un trazo");
 	    for(var ic=0; ic<req.body.paths[i].length ;ic++ ){
 		console.log("un punto");
 		console.log("x "+req.body.paths[i][ic].pX + "y"+req.body.paths[i][ic].pY);
 	    }
-	}
-	console.log("fin for");
-	
+	}*/
+	//console.log("fin for");
+	/*
 	app.post("/one-cw", function(){
 	    setTimeout(function(){
 		pinPas.write(0);
 	    }, T/2);
-	});
+	});*/
 	
 	/*
 	setInterval(function() {
@@ -85,20 +148,6 @@ function server() {
     });
     
     app.listen(process.env.PORT || 3000);
-}
-
-
-function moveStep(pinDir, pinPas, dir){
-    dir=0;
-    pinDir.write(dir);
-    pinPas.write(1);
-    setTimeout(function(){
-	pinPas.write(0);
-    }, T/2);
-}
-
-function startMoving(){
-    
 }
 
 function main() {
