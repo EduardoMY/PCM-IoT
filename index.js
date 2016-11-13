@@ -123,14 +123,16 @@ function server() {
 		    currentY++;
 		else
 		    currentY--;
-	    }
+	    }p
 	    updateValues(paths);
     }
     
     app.post("/move", function (req, res){
-	console.log(req);
-	console.log(req.body);
-	console.log(req.body.name);
+//	console.log(req);
+	console.log(req.params);
+	console.log(req.params.id);
+//	console.log(req.body);
+//	console.log(req.body.name);
 	//console.log(req.body.paths.length);
 	intervalID=setInterval(function(){startMoving(req.body.paths);}, T);
 	
