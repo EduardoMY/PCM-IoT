@@ -78,8 +78,8 @@ function server() {
     function movementInY(paths){ return paths[currentTrace][currentPoint].pY-currentY;}
     
     function updateValues(paths){
-	console.log("Punto X: "+paths[currentTrace][currentPoint].pX+" Punto Y: "+paths[currentTrace][currentPoint].pY+
-		    "  CUrrent X: "+currentX+" Current Y:"+currentY);
+	//console.log("Punto X: "+paths[currentTrace][currentPoint].pX+" Punto Y: "+paths[currentTrace][currentPoint].pY+
+	//	    "  CUrrent X: "+currentX+" Current Y:"+currentY);
 	console.log("==================");
 	if(paths[currentTrace][currentPoint].pX==currentX && paths[currentTrace][currentPoint].pY==currentY){ //Point Done
 	    console.log("Punto X: "+paths[currentTrace][currentPoint].pX+" Punto Y: "+paths[currentTrace][currentPoint].pY+
@@ -128,7 +128,10 @@ function server() {
     }
     
     app.post("/move", function (req, res){
-	console.log(req.body.paths.length);
+	console.log(req);
+	console.log(req.body);
+	console.log(req.body.name);
+	//console.log(req.body.paths.length);
 	intervalID=setInterval(function(){startMoving(req.body.paths);}, T);
 	
 	res.send("Hello");
@@ -139,11 +142,6 @@ function server() {
 
 function main() {
     server();
-/*
-    	setInterval(function() {
-	    moveStep(pinDir1, pinPaso1, 0);
-	   // moveStep(pinDir2, pinPaso2, 0);
-	}, T); */
 }
 
 main();
