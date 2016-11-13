@@ -66,7 +66,7 @@ function server() {
     app.get("/", index);
     
     function getToHome(){
-	intervalID=startMoving([[{pX: 0, pY: 0}]]);
+	intervalID=setInterval(function(){startMoving([[{pX: 0, pY: 0}]]);}, T);
     }
     
     function stopMoving(){clearInterval(intervalID); console.log("hasStopped");}
