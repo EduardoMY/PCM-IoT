@@ -99,11 +99,13 @@ function server() {
 		if(paths.length==currentTrace+1){ //All traces done, finish the program
 		    currentPoint=0;
 		    currentTrace=0;
-		    pinMilk.write(0)
-		    isValveOpen=0;
+		    amountOfSteps=1;
 		    stopMoving();
-		    if(paths[currentTrace].length!=1)
+		    console.log("Termino");
+		    if(paths[currentTrace].length!=1){
+			console.log("Va a casa");
 			getToHome();
+		    }
 		}
 		else { // keeps to the next trace
 		    // pinMilk.write(0);
