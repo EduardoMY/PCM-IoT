@@ -6,7 +6,6 @@ var currentTrace=Number(0), currentPoint=Number(0);
 var intervalID=Number(0);
 var stepsForRealisingMass=Number(300);
 var amountOfSteps=0;
-var isValveOpen=0;
 
 var T=Number(8); // duracion del paso ms, inverso de frecuencia
 var dir1 = Number(9);   ////pin para direccion eje x
@@ -93,8 +92,10 @@ function server() {
 	    console.log("Punto X: "+paths[currentTrace][currentPoint].pX+" Punto Y: "+paths[currentTrace][currentPoint].pY+
 			"  CUrrent X: "+currentX+" Current Y:"+currentY);
 
-	    if(currentPoint==0 && paths[currentTrace].length!=1)
+	    if(currentPoint==0 && paths[currentTrace].length!=1){
 		amountOfSteps=1;
+		pinMilk.write(1);
+	    }
 	    if(paths[currentTrace].length == currentPoint+1){ //All points of a specific trace done
 		if(paths.length==currentTrace+1){ //All traces done, finish the program
 		    currentPoint=0;
@@ -102,13 +103,14 @@ function server() {
 		    amountOfSteps=1;
 		    stopMoving();
 		    console.log("Termino");
+		    pinMilk.write(0);
 		    if(paths[currentTrace].length!=1){
 			console.log("Va a casa");
 			getToHome();
 		    }
 		}
 		else { // keeps to the next trace
-		    // pinMilk.write(0);
+		    pinMilk.write(0);
 		    amountOfSteps=1;
 		    currentPoint=0;
 		    currentTrace++;
@@ -143,12 +145,9 @@ function server() {
 	    updateValues(paths);
 	}
 	else {
-	    amountOfSteps++;
-	    if(amountOfSteps==stepsForRealisingMass){
+	    amountOfSteps++;	
+	    if(amountOfSteps==stepsForRealisingMass)
 		amountOfSteps=0;
-		isValveOpen = (isValveOpen==1 ? 0: 1);
-		pinMilk.write(isValveOpen);
-	    }
 	}
     }
     
