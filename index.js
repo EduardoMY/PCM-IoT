@@ -65,7 +65,11 @@ function server() {
     }
     
     app.get("/", index);
-
+    
+    function getToHome(){
+	intervalID=startMoving([[{pX: 0, pY: 0}]]);
+    }
+    
     function stopMoving(){clearInterval(intervalID); console.log("hasStopped");}
 
     function moveStep(pinDir, pinPas, dir){
@@ -88,16 +92,18 @@ function server() {
 	if(paths[currentTrace][currentPoint].pX==currentX && paths[currentTrace][currentPoint].pY==currentY){ //Point Done
 	    console.log("Punto X: "+paths[currentTrace][currentPoint].pX+" Punto Y: "+paths[currentTrace][currentPoint].pY+
 			"  CUrrent X: "+currentX+" Current Y:"+currentY);
-	    if(currentPoint==0)
+
+	    if(currentPoint==0 && paths[currentTrace].length!=1)
 		amountOfSteps=1;
 	    if(paths[currentTrace].length == currentPoint+1){ //All points of a specific trace done
 		if(paths.length==currentTrace+1){ //All traces done, finish the program
 		    currentPoint=0;
 		    currentTrace=0;
-		    amountOfSteps=1;
-		    //pinMilk.write(0);
-		    amountOfSteps=1;
+		    pinMilk.write(0)
+		    isValveOpen=0;
 		    stopMoving();
+		    if(paths[currentTrace].length!=1)
+			getToHome();
 		}
 		else { // keeps to the next trace
 		    // pinMilk.write(0);
