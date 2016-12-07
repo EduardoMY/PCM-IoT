@@ -38,6 +38,8 @@ pinDir2.dir(mraa.DIR_OUT);
 pinPaso1.dir(mraa.DIR_OUT);
 pinPaso2.dir(mraa.DIR_OUT);
 pinMilk.dir(mraa.DIR_OUT);
+pinHasAnyMilk.dir(mraa.DIR_IN);
+pinIsPrinting.dir(mraa.DIR_OUT);
 
 // Starts the built-in web server for the web page
 // used to view or control the arm
@@ -152,7 +154,7 @@ function server() {
 		amountOfSteps=0;
 	}
 	//Finish the program
-	if(pinHasAnyMilk.digitalRead()==1)
+	if(pinHasAnyMilk.read()==1)
 	    stopMoving();
     }
     
