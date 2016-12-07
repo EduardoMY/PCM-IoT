@@ -163,7 +163,7 @@ function server() {
 	res.send("Hello");
     });
     
-    app.listen(3000); //process.env.PORT || 
+    app.listen(6969); //process.env.PORT || 
 }
 
 function main() {
