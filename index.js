@@ -29,7 +29,7 @@ var pinDir2 = new mraa.Gpio(7);
 var pinPaso1 = new mraa.Gpio(8);
 var pinPaso2 = new mraa.Gpio(6);
 var pinMilk = new mraa.Gpio(5);
-var pinHasAnyMilk = new mraa.Gpio(10); //Checa si es posible 
+var pinHasAnyMilk = new mraa.Gpio(12); //Checa si es posible 
 var pinIsPrinting = new mraa.Gpio(11); //Manda un HIGH si esta moviendo los motores, LOW si paro
 
 //Sets the direction of the Pins to Output, necessary for a digitalWrite
@@ -154,7 +154,7 @@ function server() {
 		amountOfSteps=0;
 	}
 	//Finish the program
-	if(pinHasAnyMilk.read()==1)
+	if(pinHasAnyMilk.read()==0)
 	    stopMoving();
 	console.log("Lectura para saber si parar: " +pinHasAnyMilk.read());
     }
