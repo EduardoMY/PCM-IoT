@@ -156,6 +156,7 @@ function server() {
 	//Finish the program
 	if(pinHasAnyMilk.read()==1)
 	    stopMoving();
+	console.log("Lectura para saber si parar: " +pinHasAnyMilk.read());
     }
     
     app.post("/move", function (req, res){
