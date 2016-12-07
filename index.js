@@ -5,7 +5,8 @@ var currentX=Number(0), currentY=Number(0);
 var currentTrace=Number(0), currentPoint=Number(0);
 var intervalID=Number(0);
 var stepsForRealisingMass=Number(300);
-var amountOfSteps=0;
+var ps=0;
+var isPrintingEnabled=1;
 
 var T=Number(8); // duracion del paso ms, inverso de frecuencia
 var dir1 = Number(9);   ////pin para direccion eje x
@@ -150,20 +151,31 @@ function server() {
 		amountOfSteps=0;
 	}
     }
-    
+    function move(r){
+    }
     app.post("/move", function (req, res){
-//	console.log(req);
 	console.log(req.params);
 	console.log(req.params.id);
-//	console.log(req.body);
-//	console.log(req.body.name);
-	//console.log(req.body.paths.length);
-	intervalID=setInterval(function(){startMoving(req.body.paths);}, T);
-	
-	res.send("Hello");
+	if(isPrintingEnabled)
+	if(currentX==0 && currentY==0){
+	    intervalID=setInterval(function(){startMoving(req.body.paths);}, T);	    
+	    res.send("Drawing already printing");
+	}
+	else
+	    res.send("Drawing could not be printed. Already in progress");
     });
     
-    app.listen(3000); //process.env.PORT || 
+    app.post("/deleteblock", function(req, res){
+	isPrintingEnabled=0;
+	res.send("");
+    });
+
+    app.post("/printmode", function(req, res){
+	isPrintingEnabled=1;
+	res.send("");
+    });
+    
+    app.listen(process.env.PORT || 3000); //process.env.PORT || 
 }
 
 function main() {
