@@ -22,7 +22,6 @@ var fs = require("fs");
 var path = require("path");
 
 var mraa = require('mraa'); //require mraa
-//console.log('MRAA Version: ' + mraa.getVersion()); //write the mraa version to the console
 
 //
 var pinDir1 = new mraa.Gpio(9);
@@ -30,6 +29,8 @@ var pinDir2 = new mraa.Gpio(7);
 var pinPaso1 = new mraa.Gpio(8);
 var pinPaso2 = new mraa.Gpio(6);
 var pinMilk = new mraa.Gpio(5);
+var pinHasAnyMilk = new mraa.Gpio(10); //Checa si es posible 
+var pinIsPrinting = new mraa.Gpio(11); //Manda un HIGH si esta moviendo los motores, LOW si paro
 
 //Sets the direction of the Pins to Output, necessary for a digitalWrite
 pinDir1.dir(mraa.DIR_OUT);
@@ -66,6 +67,7 @@ function server() {
     app.get("/", index);
     
     function getToHome(){
+	pinIsPrinting.write(0);
 	intervalID=setInterval(function(){startMoving([[{pX: 0, pY: 0}]]);}, T);
     }
     
@@ -85,16 +87,16 @@ function server() {
     function movementInY(paths){ return paths[currentTrace][currentPoint].pY-currentY;}
     
     function updateValues(paths){
-	//console.log("Punto X: "+paths[currentTrace][currentPoint].pX+" Punto Y: "+paths[currentTrace][currentPoint].pY+
-	//	    "  CUrrent X: "+currentX+" Current Y:"+currentY);
+
 	console.log("==================");
 	if(paths[currentTrace][currentPoint].pX==currentX && paths[currentTrace][currentPoint].pY==currentY){ //Point Done
 	    console.log("Punto X: "+paths[currentTrace][currentPoint].pX+" Punto Y: "+paths[currentTrace][currentPoint].pY+
-			"  CUrrent X: "+currentX+" Current Y:"+currentY);
+			"  Current X: "+currentX+" Current Y:"+currentY);
 
 	    if(currentPoint==0 && paths[currentTrace].length!=1){
 		amountOfSteps=1;
 		pinMilk.write(1);
+		pinIsPrinting.write(1);
 	    }
 	    if(paths[currentTrace].length == currentPoint+1){ //All points of a specific trace done
 		if(paths.length==currentTrace+1){ //All traces done, finish the program
@@ -149,6 +151,9 @@ function server() {
 	    if(amountOfSteps==stepsForRealisingMass)
 		amountOfSteps=0;
 	}
+	//Finish the program
+	if(pinHasAnyMilk.digitalRead()==1)
+	    stopMoving();
     }
     
     app.post("/move", function (req, res){
